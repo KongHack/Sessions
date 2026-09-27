@@ -1,0 +1,18 @@
+services:
+  php:
+    image: 'ghcr.io/konghack/php:8.4'
+    working_dir: /var/www
+    user: '${HOST_UID:-1000}:${HOST_GID:-1000}'
+    environment:
+      HOME: '/tmp/sessions-home'
+      COMPOSER_HOME: '/tmp/sessions-home/.composer'
+      GCWORLD_SESSIONS_REDIS_HOST: 'redis'
+      GCWORLD_SESSIONS_REDIS_PORT: '6379'
+    volumes:
+      - './:/var/www'
+    init: true
+    depends_on:
+      - redis
+    command: 'sleep infinity'
+  redis:
+    image: 'redis:7'
